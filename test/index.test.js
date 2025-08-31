@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");000'
+const { default: axios } = require("axios");
 
 
 describe('Authentication',()=>{
@@ -216,6 +216,62 @@ describe('user metadata',()=>{
 
     const currentAvatar = response.data.avatars.find(a => a.id = avatarId)
     expect(currentAvatar).toBeDefined()
+  })
+})
+
+describe('Space block',()=>{
+  
+  let mapId;
+  let element1Id;
+  let element2id;
+  let token;
+  let userId;
+
+  beforeAll(async()=>{
+    const username = 'bigDihh'+Math.random()*6;
+    const password = '12345';
+
+    const response = await axios.post(`${backendURL}/api/v1/signup`,{
+      username,
+      password,
+      role: 'admin'
+    })
+
+    userId = response.data.userId;
+
+    const signinResponse = await axios.post(`${backendURL}/api/v1/signin`,{
+      username,
+      password
+    })
+
+    token = signinResponse.data.token;
+
+    const element1 = await axios.post(`${backendURL}/api/v1/admin/element`,{
+      imageUrl: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRCRca3wAR4zjPPTzeIY9rSwbbqB6bB2hVkoTXN4eerXOIkJTG1GpZ9ZqSGYafQPToWy_JTcmV5RHXsAsWQC3tKnMlH_CsibsSZ5oJtbakq&usqp=CAE",
+      width: 1,
+      height: 1,
+      static: true
+    },{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+    
+    element1Id = element1.data.id;
+
+    const element2 = await axios.post(`${backendURL}/api/v1/admin/element`,{
+      imageUrl: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRCRca3wAR4zjPPTzeIY9rSwbbqB6bB2hVkoTXN4eerXOIkJTG1GpZ9ZqSGYafQPToWy_JTcmV5RHXsAsWQC3tKnMlH_CsibsSZ5oJtbakq&usqp=CAE",
+      width: 1,
+      height: 1,
+      static: true
+    },{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    element2id = element2.data.id
+
   })
 })
 

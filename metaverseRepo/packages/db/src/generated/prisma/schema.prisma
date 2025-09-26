@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_5EiQ3PLmxdfH@ep-little-smoke-adnlykvn-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+}
+
+model User {
+  id       String    @id @unique @default(cuid())
+  username String    @unique
+  password String
+  avatarId String?
+  role     Role
+  spaces   Space[]
+  avatar   Avatar?   @relation(fields: [avatarId], references: [id])
+  elements Element[]
+}
+
+model Space {
+  id        String          @id @unique @default(cuid())
+  name      String
+  width     Int
+  height    Int
+  creatorId String
+  creator   User            @relation(fields: [creatorId], references: [id])
+  thumbnail String
+  element   SpaceElements[]
+}
+
+model SpaceElements {
+  id        String  @id @unique @default(cuid())
+  elementId String
+  spaceId   String
+  x         Int
+  y         Int
+  space     Space   @relation(fields: [spaceId], references: [id])
+  element   Element @relation(fields: [elementId], references: [id])
+}
+
+model Element {
+  id        String          @id @unique @default(cuid())
+  width     Int
+  height    Int
+  imageUrl  String
+  static    Boolean
+  creatorId String
+  creator   User            @relation(fields: [creatorId], references: [id])
+  spaces    SpaceElements[]
+  maps      mapElements[]
+}
+
+model Map {
+  id       String        @id @unique @default(cuid())
+  width    Int
+  height   Int
+  name     String
+  elements mapElements[]
+}
+
+model mapElements {
+  id          String  @id @unique @default(cuid())
+  mapId       String
+  elementId   String
+  x           Int
+  y           Int
+  mapRelation Map     @relation(fields: [mapId], references: [id])
+  ER          Element @relation(fields: [elementId], references: [id])
+}
+
+model Avatar {
+  id       String @id @unique @default(cuid())
+  name     String
+  imageUrl String
+  users    User[]
+}
+
+enum Role {
+  Admin
+  User
+}

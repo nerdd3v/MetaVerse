@@ -1,1 +1,1 @@
-export type OutgoingMessage = any;
+export type outgoinMassage = any;

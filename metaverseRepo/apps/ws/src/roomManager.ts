@@ -1,47 +1,56 @@
-import type { OutgoingMessage } from "./types.js";
-import type { User } from "./user.ts";
-
+import { use } from "react";
+import { User } from "./user.js"
+import type { outgoinMassage } from "./types.js";
 
 export class RoomManager{
-
     rooms: Map<string, User[]> = new Map();
-    static instance : RoomManager;
+    static instance: RoomManager;
+
     private constructor(){
         this.rooms = new Map();
     }
 
     static getInstance(){
-        if(!RoomManager.instance){
-            RoomManager.instance = new RoomManager();
-            return RoomManager.instance
+        if(!this.instance){
+            this.instance = new RoomManager()
         }
-        return RoomManager.instance
+        return this.instance
     }
 
     public addUser(spaceId: string, user: User){
+        if(!spaceId || !user){
+            return;
+        }
         if(!this.rooms.has(spaceId)){
-            this.rooms.set(spaceId, [user]);
+            this.rooms.set(spaceId, [user])
             return;
         }
         this.rooms.set(spaceId, [...(this.rooms.get(spaceId)??[]), user])
     }
 
-    public broadcast(message: OutgoingMessage, user: User, roomId: string){
-        if(!this.rooms.has(roomId)){
+    public removeUser(spaceId: string, user: User){
+        if(!spaceId || !user){
             return;
         }
-        this.rooms.get(roomId)?.forEach((u)=>{
-            if(u.id !== user.id){
-                u.send(message)
-            }
-        })
+        const spaceIdValid = this.rooms.get(spaceId);
+        if(!spaceIdValid){
+            return;
+        }
+
+        this.rooms.set(spaceId, (this.rooms.get(spaceId)?.filter((u)=>u.id !== user.id)??[]))
     }
 
-    public removeUser(user: User,spaceId: string){
+    public broadcast(data: outgoinMassage, user: User, spaceId: string){
         if(!this.rooms.has(spaceId)){
             return;
         }
-        this.rooms.set(spaceId, (this.rooms.get(spaceId)?.filter((u)=> u.id !== user.id)??[]))
+
+        this.rooms.get(spaceId)?.forEach((u)=>{
+            if(u.id !== user.id){
+                u.send(data)
+            }
+        })
+
     }
 
 }

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authMW } from "../MiddleWares/authMW.js";
 import { createAvatarSchema, createElementSchema, createMapSchema } from "../types/index.js";
-import { client } from "@repo/db";
+import { client } from "@repo/db/client";
 import { number } from "zod";
 
 export const adminRouter = Router();

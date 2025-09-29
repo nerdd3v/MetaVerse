@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { updateMetadataSchema } from "../types/index.js";
-import { client } from "@repo/db";
+import { client } from "@repo/db/client";
 import { authMW } from "../MiddleWares/authMW.js";
 
 

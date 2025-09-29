@@ -2,7 +2,7 @@ import { Router } from "express";
 import { addElementSchema, createSpaceSchema } from "../types/index.js";
 import { parse, string } from "zod";
 import { authMW } from "../MiddleWares/authMW.js";
-import { client } from "@repo/db";
+import { client } from "@repo/db/client";
 import { use } from "react";
 
 export const spaceRouter = Router();

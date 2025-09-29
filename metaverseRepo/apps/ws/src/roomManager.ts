@@ -1,6 +1,6 @@
 import { use } from "react";
 import { User } from "./user.js"
-import type { outgoinMassage } from "./types.js";
+import type { OutgoingMessage } from "./types.js";
 
 export class RoomManager{
     rooms: Map<string, User[]> = new Map();
@@ -40,7 +40,7 @@ export class RoomManager{
         this.rooms.set(spaceId, (this.rooms.get(spaceId)?.filter((u)=>u.id !== user.id)??[]))
     }
 
-    public broadcast(data: outgoinMassage, user: User, spaceId: string){
+    public broadcast(data: OutgoingMessage, user: User, spaceId: string){
         if(!this.rooms.has(spaceId)){
             return;
         }

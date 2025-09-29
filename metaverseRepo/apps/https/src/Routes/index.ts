@@ -4,7 +4,7 @@ import { spaceRouter } from "./space.js";
 import { adminRouter } from "./admin.js";
 import { z} from 'zod'
 import { signinSchema, signupSchema } from "../types/index.js";
-import { client } from "@repo/db";
+import { client } from "@repo/db/client";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 

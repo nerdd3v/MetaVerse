@@ -11,7 +11,8 @@ wss.on('connection', (ws)=>{
         console.error
     })
 
-    ws.on('message',()=>{
+    ws.on('close',()=>{
         user.destroy()
     })
 })
+

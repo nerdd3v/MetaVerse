@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/saketsharma/Downloads/MetaVerse/metaverseRepo/packages/db/src/generated/prisma",
+      "value": "/Users/saketsharma/Code/metaverseRepo/packages/db/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -200,7 +200,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/saketsharma/Downloads/MetaVerse/metaverseRepo/packages/db/prisma/schema.prisma",
+    "sourceFilePath": "/Users/saketsharma/Code/metaverseRepo/packages/db/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -217,12 +217,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": null,
-        "value": "postgresql://neondb_owner:npg_tJn4PVSsf8dm@ep-rough-smoke-ads5qt0o-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+        "value": "postgresql://neondb_owner:npg_KtZm3e1PAGdX@ep-still-frog-ad5dlbx2-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = \"postgresql://neondb_owner:npg_tJn4PVSsf8dm@ep-rough-smoke-ads5qt0o-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\"\n}\n\nmodel User {\n  id       String    @id @unique @default(cuid())\n  username String    @unique\n  password String\n  avatarId String?\n  role     Role\n  spaces   Space[]\n  avatar   Avatar?   @relation(fields: [avatarId], references: [id])\n  elements Element[]\n}\n\nmodel Space {\n  id        String          @id @unique @default(cuid())\n  name      String\n  width     Int\n  height    Int\n  creatorId String\n  creator   User            @relation(fields: [creatorId], references: [id])\n  thumbnail String\n  element   SpaceElements[]\n}\n\nmodel SpaceElements {\n  id        String  @id @unique @default(cuid())\n  elementId String\n  spaceId   String\n  x         Int\n  y         Int\n  space     Space   @relation(fields: [spaceId], references: [id])\n  element   Element @relation(fields: [elementId], references: [id])\n}\n\nmodel Element {\n  id        String          @id @unique @default(cuid())\n  width     Int\n  height    Int\n  imageUrl  String\n  static    Boolean\n  creatorId String\n  creator   User            @relation(fields: [creatorId], references: [id])\n  spaces    SpaceElements[]\n  maps      mapElements[]\n}\n\nmodel Map {\n  id       String        @id @unique @default(cuid())\n  width    Int\n  height   Int\n  name     String\n  elements mapElements[]\n}\n\nmodel mapElements {\n  id          String  @id @unique @default(cuid())\n  mapId       String\n  elementId   String\n  x           Int\n  y           Int\n  mapRelation Map     @relation(fields: [mapId], references: [id])\n  ER          Element @relation(fields: [elementId], references: [id])\n}\n\nmodel Avatar {\n  id       String @id @unique @default(cuid())\n  name     String\n  imageUrl String\n  users    User[]\n}\n\nenum Role {\n  Admin\n  User\n}\n",
-  "inlineSchemaHash": "d96a9af855969c5fbb70225f1a7cf865eac51ab76848f742468a315890947a3a",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = \"postgresql://neondb_owner:npg_KtZm3e1PAGdX@ep-still-frog-ad5dlbx2-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\"\n}\n\nmodel User {\n  id       String    @id @unique @default(cuid())\n  username String    @unique\n  password String\n  avatarId String?\n  role     Role\n  spaces   Space[]\n  avatar   Avatar?   @relation(fields: [avatarId], references: [id])\n  elements Element[]\n}\n\nmodel Space {\n  id        String          @id @unique @default(cuid())\n  name      String\n  width     Int\n  height    Int\n  creatorId String\n  creator   User            @relation(fields: [creatorId], references: [id])\n  thumbnail String\n  element   SpaceElements[]\n}\n\nmodel SpaceElements {\n  id        String  @id @unique @default(cuid())\n  elementId String\n  spaceId   String\n  x         Int\n  y         Int\n  space     Space   @relation(fields: [spaceId], references: [id])\n  element   Element @relation(fields: [elementId], references: [id])\n}\n\nmodel Element {\n  id        String          @id @unique @default(cuid())\n  width     Int\n  height    Int\n  imageUrl  String\n  static    Boolean\n  creatorId String\n  creator   User            @relation(fields: [creatorId], references: [id])\n  spaces    SpaceElements[]\n  maps      mapElements[]\n}\n\nmodel Map {\n  id       String        @id @unique @default(cuid())\n  width    Int\n  height   Int\n  name     String\n  elements mapElements[]\n}\n\nmodel mapElements {\n  id          String  @id @unique @default(cuid())\n  mapId       String\n  elementId   String\n  x           Int\n  y           Int\n  mapRelation Map     @relation(fields: [mapId], references: [id])\n  ER          Element @relation(fields: [elementId], references: [id])\n}\n\nmodel Avatar {\n  id       String @id @unique @default(cuid())\n  name     String\n  imageUrl String\n  users    User[]\n}\n\nenum Role {\n  Admin\n  User\n}\n",
+  "inlineSchemaHash": "7fc419f8b9c59721db33f69d9e6dca82b20d9ce65a8e027111ca1bc53d4b85e0",
   "copyEngine": true
 }
 config.dirname = '/'

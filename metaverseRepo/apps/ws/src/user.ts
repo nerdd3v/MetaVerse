@@ -85,10 +85,15 @@ export class User {
                     }, this, this.spaceId!);
                     break;
                 case "move":
+                    console.log("move")
                     const moveX = parsedData.payload.x;
+                    console.log(moveX)
                     const moveY = parsedData.payload.y;
+                    console.log(moveY)
                     const xDisplacement = Math.abs(this.x - moveX);
+                    console.log("xD")
                     const yDisplacement = Math.abs(this.y - moveY);
+                    console.log("xY")
                     if ((xDisplacement == 1 && yDisplacement== 0) || (xDisplacement == 0 && yDisplacement == 1)) {
                         this.x = moveX;
                         this.y = moveY;
@@ -129,6 +134,29 @@ export class User {
                         }
                       }, this, this.spaceId!)
                       break;
+
+                    case "proximity-chat":
+                        const pchat = parsedData.payload.chat;
+                        if(!pchat) return;
+                        RoomManager.getInstance().rooms.forEach((userArray, roomId)=>{
+                            userArray.forEach((u)=>{
+                                if(u.id !== this.id){
+                                    const dx = u.x -this.x;
+                                    const dy = u.y - this.y;
+                                    const displacement = Math.sqrt(dx*dx + dy*dy);
+
+                                    if(displacement <= 5){
+                                        this.send({
+                                            type: "chat-sent",
+                                            payload:{
+                                                message: pchat
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }) 
+                        break;
                     
             }
         });
